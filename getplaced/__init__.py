@@ -8,7 +8,7 @@ from flask import Flask, redirect, render_template, request, url_for, jsonify, a
 app = Flask(__name__)
 app.secret_key = os.getenv('SECRET_KEY')
 
-db = MongoClient(os.getenv('MONGO_URL'))[os.getenv('DATABASE')]
+db = MongoClient(os.getenv('MONGO_URL'))
 
 
 @app.route('/')
