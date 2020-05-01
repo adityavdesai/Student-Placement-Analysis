@@ -1,1 +1,1 @@
-web: gunicorn bda-getplaced:app
+web: gunicorn getplaced:app
