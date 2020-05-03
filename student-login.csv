@@ -1,4 +1,4 @@
-_id,Full Name,Email,Password,type
+_id,name,email,password,type
 0,Roxanne Barbeau,roxannebarbeau.0@email.com,$2b$12$cNfw7TceO3eOdGvFc1Mbt.xSiV7lEQTqROwWh4G76o2GkYQjhMnri,student
 1,Frank Jones,frankjones.1@email.com,$2b$12$XpaWqxXcxbqb4urFCpfAC.SEVO58zt4nxueTK9b/SJCIdUWmK5gWm,student
 2,Royce Crowell,roycecrowell.2@email.com,$2b$12$6IjgsZlNrPMUscbeXCVygeP33d3jxxBRruslH/JUDuAqadl6mlhUe,student

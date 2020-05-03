@@ -5,6 +5,6 @@
 [[ -d "venv" ]] || python3.8 -m venv ./venv
 source venv/bin/activate
 source .env
-export MONGO_URL
+export MONGO_URL SECRET_KEY
 pip install -r requirements.txt
 gunicorn getplaced:app -b :5500 --workers=8 --reload
