@@ -492,7 +492,7 @@
                         }
 
                         function wrangleData(filtered){
-                            const sexPieData=["female","male"].map((key)=>({
+                            const sexPieData=["Female","Male"].map((key)=>({
                                 key,
                                 values:filtered.filter((d)=>d.sex===key),
                             }));
@@ -509,7 +509,7 @@
                             d3.select("#selectedSex").text(state.selectedSex || "None");
                         }
 
-                        d3.csv("https://raw.githubusercontent.com/sgratzl/d3tutorial/master/examples/titanic3.csv").then((parsed)=>{
+                        d3.csv("../../placement-data.csv").then((parsed)=>{
                             state.data=parsed.map((row)=>{
                                 return row;
                             });
