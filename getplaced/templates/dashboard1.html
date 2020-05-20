@@ -482,19 +482,20 @@
                         ///////////////////////////
                         const sexPieChart=createPieChart("#sex","selectedSex",d3.schemeSet3);
 
+                        //d.columnname where d.Gender
                         function filterData(){
                             return state.data.filter((d)=>{
-                                if(state.selectedSex && d.sex!==state.selectedSex){
+                                if(state.selectedSex && d.Sex!==state.selectedSex){
                                     return false;
                                 }
                                 return true;
                             });
                         }
-
+                        //d.columnname === key
                         function wrangleData(filtered){
                             const sexPieData=["Female","Male"].map((key)=>({
                                 key,
-                                values:filtered.filter((d)=>d.sex===key),
+                                values:filtered.filter((d)=>d.Sex===key),
                             }));
 
                             return{
@@ -508,12 +509,14 @@
 
                             d3.select("#selectedSex").text(state.selectedSex || "None");
                         }
-
+                        
+                        // Add csv source here
                         d3.csv("../../placement-data.csv").then((parsed)=>{
                             state.data=parsed.map((row)=>{
                                 return row;
                             });
                             updateApp();
+                            
                         })
 
                     </script>
