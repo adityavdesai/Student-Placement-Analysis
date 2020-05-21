@@ -5,5 +5,13 @@
     <title>Title</title>
 </head>
 <body>
+<table>
+    {% for key,val in data.items() %}
+        <tr>
+            <td>{{ key }}</td>
+            <td>{{ val }}</td>
+        </tr>
+    {% endfor %}
+</table>
 </body>
 </html>

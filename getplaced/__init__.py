@@ -147,7 +147,6 @@ def register():
 
 
 @app.route('/changepassword', methods=['GET', 'POST'])
-@login_required
 def change_password():
     """
        Displays a page to enter current and a new password on a GET request
@@ -212,7 +211,9 @@ def dashboard():
 def showstudent():
     """Shows the student info  to the respective student meh"""
     if current_user.type == 'student':
-        data = mongo.studentinfo.find_one({'email': current_user.email})
+        print(current_user.email)
+        data = mongo.studentinfo.find_one({'Email': current_user.email})
+        print(data)
         return render_template('showstudent.html', data=data)
     else:
         return '<marquee>Nothing here for you!</marquee><br><br>' \
