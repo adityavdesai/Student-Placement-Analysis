@@ -154,21 +154,26 @@ def change_password():
        For POST, changes the password if current one matches and logs you out
     """
     if request.method == 'POST':
-        current_password = request.form['current_password']
-        new_password = request.form['new_password']
+        if 'email' not in request.form:
+            return 'Email is required!'
+        if 'password' not in request.form:
+            return 'Password is required!'
 
-        # If current password is correct, update and store the new hash
-        if bcrypt.check_password_hash(current_user.password, current_password):
-            current_user.password = bcrypt.generate_password_hash(new_password).decode('utf-8')
-            mongo.users.update_one({'email': current_user.email}, {'$set': {'password': current_user.password}})
-        else:
-            return 'Current password you entered is wrong! Please try again!'
-        flash('Password updated successfully')
+        user = mongo.users.find_one({"email": request.form['email']})
+        # Ensure user exists in the database
+        if user is not None:
+            email = request.form['email']
+            new_password = request.form['password']
 
-        # Log the user out, and redirect to login page
-        logout_user()
-        return redirect(url_for('login'))
-    return render_template('d3trial.html')
+            password = bcrypt.generate_password_hash(new_password).decode('utf-8')
+            mongo.users.update_one({'email': email}, {'$set': {'password': password}})
+
+            # Log the user out, and redirect to login page
+            if current_user is not None:
+                logout_user()
+            return redirect(url_for('login'))
+        return f"User {request.form['email']} does not exist"
+    return render_template('change_password.html')
 
 
 @app.route('/logout')
