@@ -364,14 +364,14 @@
                               .attr("width", width1)
                               .attr("height", height1)
                               .append("g")
-                              .attr("transform", "translate(" + width1 / 2 + "," + height1 / 2 + ")");
+                              .attr("transform","translate("+width1/2+","+height1/2+")");
 
                           //get data
                           d3.csv("../../placement-data.csv", function (data) {
                               console.log(data);
                               var color = d3.scaleOrdinal().domain(data).range(d3.schemeSet2);
                               //compute position of each group on pie:
-                              var data = d3.next()
+                              var data = d3.nest()
                                   .key(function (d) {
                                       return d.Certifications;
                                   })

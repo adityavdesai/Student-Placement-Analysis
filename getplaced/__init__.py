@@ -197,7 +197,7 @@ def dashboard():
     """Shows the Dashboard to any Hirer"""
     if current_user.type == 'hirer':
         json_data = list(mongo.studentinfo.find())
-        return render_template('dashboard.html', data=json_data)
+        return render_template('dashboard.html', json_data=json_data)
     else:
         return 'This page is available only to Hirers', 401
 
