@@ -43,7 +43,7 @@
             }
         </style>
     
-        <link href="../../placement-data.csv" rel="stylesheet" />
+        <link href="https://raw.githubusercontent.com/adityavdesai/Student-Placement-Analysis/master/placement-data.csv?token=AG3N2VE2GGWD4DCZERDFK3C6Z7RLA" rel="stylesheet" />
         <link rel="stylesheet" href="../static/css/dashboard.css">
         <script src="../static/js/script.js"></script>
       </head>
@@ -290,7 +290,7 @@
                             "translate(" + margin.left + "," + margin.top + ")");
                   
                   // get the data
-                  d3.csv("../../placement-data.csv", function(data) {
+                  d3.csv("https://raw.githubusercontent.com/adityavdesai/Student-Placement-Analysis/master/placement-data.csv?token=AG3N2VE2GGWD4DCZERDFK3C6Z7RLA", function(data) {
                   
                     // X axis: scale and draw:
                     var x = d3.scaleLinear()
@@ -367,7 +367,7 @@
                               .attr("transform","translate("+width1/2+","+height1/2+")");
 
                           //get data
-                          d3.csv("../../placement-data.csv", function (data) {
+                          d3.csv("https://raw.githubusercontent.com/adityavdesai/Student-Placement-Analysis/master/placement-data.csv?token=AG3N2VE2GGWD4DCZERDFK3C6Z7RLA", function (data) {
                               console.log(data);
                               var color = d3.scaleOrdinal().domain(data).range(d3.schemeSet2);
                               //compute position of each group on pie:
@@ -574,7 +574,7 @@
                         }
                         
                         // Add csv source here
-                        d3.csv("../../placement-data.csv").then((parsed)=>{
+                        d3.csv("https://raw.githubusercontent.com/adityavdesai/Student-Placement-Analysis/master/placement-data.csv?token=AG3N2VE2GGWD4DCZERDFK3C6Z7RLA").then((parsed)=>{
                             state.data=parsed.map((row)=>{
                                 return row;
                             });
