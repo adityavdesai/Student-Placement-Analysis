@@ -211,9 +211,7 @@ def dashboard():
 def showstudent():
     """Shows the student info  to the respective student meh"""
     if current_user.type == 'student':
-        print(current_user.email)
         data = mongo.studentinfo.find_one({'Email': current_user.email})
-        print(data)
         return render_template('showstudent.html', data=data)
     else:
         return '<marquee>Nothing here for you!</marquee><br><br>' \
