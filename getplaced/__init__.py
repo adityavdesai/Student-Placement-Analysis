@@ -106,7 +106,7 @@ def login():
                 next = request.args.get('next')
                 if not is_safe_url(next):
                     return abort(400)
-                return redirect(next or url_for('dashboard') if user.type == 'hirer' else url_for('d3'))
+                return redirect(next or url_for('dashboard') if user.type == 'hirer' else url_for('showstudent'))
             return f'Wrong password for {user.email}!'
         return f"{request.form['email']} doesn't exist!"
     return render_template('login.html')
@@ -193,7 +193,7 @@ def index():
     if current_user.type == 'hirer':
         return redirect(url_for('dashboard'))
     else:
-        return redirect(url_for('d3'))
+        return redirect(url_for('showstudent'))
 
 
 @app.route('/dashboard', methods=['GET'])
@@ -207,12 +207,13 @@ def dashboard():
         return 'This page is available only to Hirers', 401
 
 
-@app.route('/d3', methods=['GET'])
+@app.route('/showstudent', methods=['GET'])
 @login_required
-def d3():
+def showstudent():
     """Shows the student info  to the respective student meh"""
     if current_user.type == 'student':
-        return render_template('d3trial.html')
+        data = mongo.studentinfo.find_one({'email': current_user.email})
+        return render_template('showstudent.html', data=data)
     else:
         return '<marquee>Nothing here for you!</marquee><br><br>' \
                f'Head over to <a href="{url_for("dashboard")}">Dashboard.</a>'
