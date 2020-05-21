@@ -1,0 +1,672 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8" http-equiv="encoding" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+        <title>Student Analytics</title>
+        <meta name="viewport" content="width=device-width,initial-scale=1" />
+        <script src="https://d3js.org/d3.v5.js"></script>
+        
+        <script src="https://code.jquery.com/jquery-3.4.1.min.js" integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script>
+        <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
+        <link href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.0.0/css/bootstrap.css" rel="stylesheet">
+        <link href="https://cdnjs.cloudflare.com/ajax/libs/datatables/1.10.16/css/dataTables.bootstrap4.css" rel="stylesheet">
+        
+        <style>
+          @import url(//cdnjs.cloudflare.com/ajax/libs/normalize/3.0.1/normalize.min.css);
+          @import url(//maxcdn.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.min.css);
+        </style>
+        <style>
+            rect{
+                fill: yellowgreen;
+                fill-opacity: 0.8;
+            }
+            rect:hover{
+                fill-opacity: 1;
+            }
+            path{
+                fill-opacity:0.8;
+            }
+            .selected,
+            path:hover{
+                fill-opacity: 1;
+            }
+            .axis{
+                font-size: smaller;
+            }
+            main{
+                display:flex;
+                flex-wrap:wrap;
+            }
+            h3{
+                text-align:center;
+            }
+        </style>
+    
+        <link href="https://raw.githubusercontent.com/adityavdesai/Student-Placement-Analysis/master/placement-data.csv?token=AG3N2VE2GGWD4DCZERDFK3C6Z7RLA" rel="stylesheet" />
+        <link rel="stylesheet" href="../static/css/dashboard.css">
+        <script src="../static/js/script.js"></script>
+      </head>
+      <body class="fixed-nav sticky-footer bg-dark" id="page-top">
+        <!-- Navigation-->
+        <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top" id="mainNav">
+          <a class="navbar-brand" href="index.html">Get Placed</a>
+          <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+          </button>
+          <div class="collapse navbar-collapse" id="navbarResponsive">
+            <ul class="navbar-nav navbar-sidenav" id="exampleAccordion">
+              <li class="nav-item" data-toggle="tooltip" data-placement="right" title="Dashboard">
+                <a class="nav-link" href="index.html">
+                  <i class="fa fa-fw fa-dashboard"></i>
+                  <span class="nav-link-text">Dashboard</span>
+                </a>
+              </li>
+              <li class="nav-item" data-toggle="tooltip" data-placement="right" title="Charts">
+                <a class="nav-link" href="charts.html">
+                  <i class="fa fa-fw fa-area-chart"></i>
+                  <span class="nav-link-text">Charts</span>
+                </a>
+              </li>
+              <li class="nav-item" data-toggle="tooltip" data-placement="right" title="Tables">
+                <a class="nav-link" href="tables.html">
+                  <i class="fa fa-fw fa-table"></i>
+                  <span class="nav-link-text">Tables</span>
+                </a>
+              </li>
+              <li class="nav-item" data-toggle="tooltip" data-placement="right" title="Components">
+                <a class="nav-link nav-link-collapse collapsed" data-toggle="collapse" href="#collapseComponents" data-parent="#exampleAccordion">
+                  <i class="fa fa-fw fa-wrench"></i>
+                  <span class="nav-link-text">Components</span>
+                </a>
+                <ul class="sidenav-second-level collapse" id="collapseComponents">
+                  <li>
+                    <a href="navbar.html">Navbar</a>
+                  </li>
+                  <li>
+                    <a href="cards.html">Cards</a>
+                  </li>
+                </ul>
+              </li>
+              <li class="nav-item" data-toggle="tooltip" data-placement="right" title="Example Pages">
+                <a class="nav-link nav-link-collapse collapsed" data-toggle="collapse" href="#collapseExamplePages" data-parent="#exampleAccordion">
+                  <i class="fa fa-fw fa-file"></i>
+                  <span class="nav-link-text">Example Pages</span>
+                </a>
+                <ul class="sidenav-second-level collapse" id="collapseExamplePages">
+                  <li>
+                    <a href="login.html">Login Page</a>
+                  </li>
+                  <li>
+                    <a href="register.html">Registration Page</a>
+                  </li>
+                  <li>
+                    <a href="forgot-password.html">Forgot Password Page</a>
+                  </li>
+                  <li>
+                    <a href="blank.html">Blank Page</a>
+                  </li>
+                </ul>
+              </li>
+              <li class="nav-item" data-toggle="tooltip" data-placement="right" title="Menu Levels">
+                <a class="nav-link nav-link-collapse collapsed" data-toggle="collapse" href="#collapseMulti" data-parent="#exampleAccordion">
+                  <i class="fa fa-fw fa-sitemap"></i>
+                  <span class="nav-link-text">Menu Levels</span>
+                </a>
+                <ul class="sidenav-second-level collapse" id="collapseMulti">
+                  <li>
+                    <a href="#">Second Level Item</a>
+                  </li>
+                  <li>
+                    <a href="#">Second Level Item</a>
+                  </li>
+                  <li>
+                    <a href="#">Second Level Item</a>
+                  </li>
+                  <li>
+                    <a class="nav-link-collapse collapsed" data-toggle="collapse" href="#collapseMulti2">Third Level</a>
+                    <ul class="sidenav-third-level collapse" id="collapseMulti2">
+                      <li>
+                        <a href="#">Third Level Item</a>
+                      </li>
+                      <li>
+                        <a href="#">Third Level Item</a>
+                      </li>
+                      <li>
+                        <a href="#">Third Level Item</a>
+                      </li>
+                    </ul>
+                  </li>
+                </ul>
+              </li>
+              <li class="nav-item" data-toggle="tooltip" data-placement="right" title="Link">
+                <a class="nav-link" href="#">
+                  <i class="fa fa-fw fa-link"></i>
+                  <span class="nav-link-text">Link</span>
+                </a>
+              </li>
+            </ul>
+            <ul class="navbar-nav sidenav-toggler">
+              <li class="nav-item">
+                <a class="nav-link text-center" id="sidenavToggler">
+                  <i class="fa fa-fw fa-angle-left"></i>
+                </a>
+              </li>
+            </ul>
+            <ul class="navbar-nav ml-auto">
+              <li class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle mr-lg-2" id="messagesDropdown" href="#" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                  <i class="fa fa-fw fa-envelope"></i>
+                  <span class="d-lg-none">Messages
+                    <span class="badge badge-pill badge-primary">12 New</span>
+                  </span>
+                  <span class="indicator text-primary d-none d-lg-block">
+                    <i class="fa fa-fw fa-circle"></i>
+                  </span>
+                </a>
+                <div class="dropdown-menu" aria-labelledby="messagesDropdown">
+                  <h6 class="dropdown-header">New Messages:</h6>
+                  <div class="dropdown-divider"></div>
+                  <a class="dropdown-item" href="#">
+                    <strong>David Miller</strong>
+                    <span class="small float-right text-muted">11:21 AM</span>
+                    <div class="dropdown-message small">Hey there! This new version of SB Admin is pretty awesome! These messages clip off when they reach the end of the box so they don't overflow over to the sides!</div>
+                  </a>
+                  <div class="dropdown-divider"></div>
+                  <a class="dropdown-item" href="#">
+                    <strong>Jane Smith</strong>
+                    <span class="small float-right text-muted">11:21 AM</span>
+                    <div class="dropdown-message small">I was wondering if you could meet for an appointment at 3:00 instead of 4:00. Thanks!</div>
+                  </a>
+                  <div class="dropdown-divider"></div>
+                  <a class="dropdown-item" href="#">
+                    <strong>John Doe</strong>
+                    <span class="small float-right text-muted">11:21 AM</span>
+                    <div class="dropdown-message small">I've sent the final files over to you for review. When you're able to sign off of them let me know and we can discuss distribution.</div>
+                  </a>
+                  <div class="dropdown-divider"></div>
+                  <a class="dropdown-item small" href="#">View all messages</a>
+                </div>
+              </li>
+              <li class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle mr-lg-2" id="alertsDropdown" href="#" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                  <i class="fa fa-fw fa-bell"></i>
+                  <span class="d-lg-none">Alerts
+                    <span class="badge badge-pill badge-warning">6 New</span>
+                  </span>
+                  <span class="indicator text-warning d-none d-lg-block">
+                    <i class="fa fa-fw fa-circle"></i>
+                  </span>
+                </a>
+                <div class="dropdown-menu" aria-labelledby="alertsDropdown">
+                  <h6 class="dropdown-header">New Alerts:</h6>
+                  <div class="dropdown-divider"></div>
+                  <a class="dropdown-item" href="#">
+                    <span class="text-success">
+                      <strong>
+                        <i class="fa fa-long-arrow-up fa-fw"></i>Status Update</strong>
+                    </span>
+                    <span class="small float-right text-muted">11:21 AM</span>
+                    <div class="dropdown-message small">This is an automated server response message. All systems are online.</div>
+                  </a>
+                  <div class="dropdown-divider"></div>
+                  <a class="dropdown-item" href="#">
+                    <span class="text-danger">
+                      <strong>
+                        <i class="fa fa-long-arrow-down fa-fw"></i>Status Update</strong>
+                    </span>
+                    <span class="small float-right text-muted">11:21 AM</span>
+                    <div class="dropdown-message small">This is an automated server response message. All systems are online.</div>
+                  </a>
+                  <div class="dropdown-divider"></div>
+                  <a class="dropdown-item" href="#">
+                    <span class="text-success">
+                      <strong>
+                        <i class="fa fa-long-arrow-up fa-fw"></i>Status Update</strong>
+                    </span>
+                    <span class="small float-right text-muted">11:21 AM</span>
+                    <div class="dropdown-message small">This is an automated server response message. All systems are online.</div>
+                  </a>
+                  <div class="dropdown-divider"></div>
+                  <a class="dropdown-item small" href="#">View all alerts</a>
+                </div>
+              </li>
+              <li class="nav-item">
+                <form class="form-inline my-2 my-lg-0 mr-lg-2">
+                  <div class="input-group">
+                    <input class="form-control" type="text" placeholder="Search for...">
+                    <span class="input-group-append">
+                      <button class="btn btn-primary" type="button">
+                        <i class="fa fa-search"></i>
+                      </button>
+                    </span>
+                  </div>
+                </form>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" data-toggle="modal" data-target="#exampleModal">
+                  <i class="fa fa-fw fa-sign-out"></i>Logout</a>
+              </li>
+            </ul>
+          </div>
+        </nav>
+        
+        <div class="content-wrapper">
+                    
+          <div class="container-fluid">
+            <!-- Breadcrumbs-->
+            <ol class="breadcrumb">
+              <li class="breadcrumb-item">
+                <a href="#">Dashboard</a>
+              </li>
+              <li class="breadcrumb-item active">My Dashboard</li>
+            </ol>
+            
+            <!-- Icon Cards-->
+            
+            <!-- Area Chart Example-->
+            <div class="card mb-3">
+              <div class="card-header">
+                <i class="fa fa-area-chart"></i> Marks in OS</div>
+              <div class="card-body">
+                <canvas id="myAreaChart" width="100%" height="30"></canvas>
+                <script src="https://d3js.org/d3.v4.js"></script>
+
+                <div id="my_dataviz"></div>
+                <script>
+
+                  // set the dimensions and margins of the graph
+                  var margin = {top: 10, right: 30, bottom: 30, left: 40},
+                      width = 980 - margin.left - margin.right,
+                      height = 400 - margin.top - margin.bottom;
+                  
+                  // append the svg object to the body of the page
+                  var svg = d3.select("#my_dataviz")
+                    .append("svg")
+                      .attr("width", width + margin.left + margin.right)
+                      .attr("height", height + margin.top + margin.bottom)
+                    .append("g")
+                      .attr("transform",
+                            "translate(" + margin.left + "," + margin.top + ")");
+                  
+                  // get the data------------------------------------------------------------------------------
+                  
+                  console.log(this.json_data);
+
+                  var x = d3.scaleLinear()
+                        .domain([50, 100])     // can use this instead of 1000 to have the max of data: d3.max(data, function(d) { return +d.price })
+                        .range([0, width]);
+                    svg.append("g")
+                        .attr("transform", "translate(0," + height + ")")
+                        .call(d3.axisBottom(x));
+                  
+                    // set the parameters for the histogram
+                    var histogram = d3.histogram()
+                        .value(function(d) { return d.os; })   // I need to give the vector of value
+                        .domain(x.domain())  // then the domain of the graphic
+                        .thresholds(x.ticks(70)); // then the numbers of bins
+                  
+                    // And apply this function to data to get the bins
+                    var bins = histogram(json_data);
+                  
+                    // Y axis: scale and draw:
+                    var y = d3.scaleLinear()
+                        .range([height, 0]);
+                        y.domain([0, d3.max(bins, function(d) { return d.length; })]);   // d3.hist has to be called before the Y axis obviously
+                    svg.append("g")
+                        .call(d3.axisLeft(y));
+                  
+                    // append the bar rectangles to the svg element
+                    svg.selectAll("rect")
+                        .data(bins)
+                        .enter()
+                        .append("rect")
+                          .attr("x", 1)
+                          .attr("transform", function(d) { return "translate(" + x(d.x0) + "," + y(d.length) + ")"; })
+                          .attr("width", function(d) { return x(d.x1) - x(d.x0) -1 ; })
+                          .attr("height", function(d) { return height - y(d.length); })
+                          .style("fill", "#69b3a2")
+                //   d3.csv("https://raw.githubusercontent.com/adityavdesai/Student-Placement-Analysis/master/placement-data.csv?token=AG3N2VE2GGWD4DCZERDFK3C6Z7RLA", function(data) {
+                  
+                //     // X axis: scale and draw:
+                    
+                  
+                //   });
+                  </script>
+              </div>
+              <div class="card-footer small text-muted">
+                Updated <span id="datetime"></span>
+                    <script>
+                      var dt=new Date();
+                      document.getElementById("datetime").innerHTML=dt.toLocaleString();
+                    </script>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-lg-8">
+                <!-- Example Bar Chart Card-->
+                <div class="card mb-3">
+                  <div class="card-header">
+                    <i class="fa fa-bar-chart"></i> Certifications Distributions</div>
+                  <div class="card-body">
+                    <div class="row">
+                      <div class="col-sm-8 my-auto">
+                        <canvas id="myBarChart" width="100" height="50"></canvas>
+                        <script src="https://d3js.org/d3.v4.js"></script>
+                        <div id="my_dataviz2"></div>
+                        <script src="https://d3js.org/d3-scale-chromatic.v1.min.js"></script>
+                        <script>
+                          var width1=500;
+                              height1=500;
+                              margin1=40;
+                          var radius1=Math.min(width1,height1)/2-margin1;
+
+                          //append the svg object to the div called 'my_datawiz'
+                          var svg1=d3
+                            .select("#my_dataviz2")
+                            .append("svg")//check
+                              .attr("width", width1)
+                              .attr("height", height1)
+                              .append("g")
+                              .attr("transform","translate("+width1/2+","+height1/2+")");
+
+                          //get data
+                          d3.csv("https://raw.githubusercontent.com/adityavdesai/Student-Placement-Analysis/master/placement-data.csv?token=AG3N2VE2GGWD4DCZERDFK3C6Z7RLA", function (data) {
+                              //console.log(data);
+                              var color = d3.scaleOrdinal().domain(data).range(d3.schemeSet2);
+                              //compute position of each group on pie:
+                              var data = d3.nest()
+                                  .key(function (d) {
+                                      return d.Certifications;
+                                  })
+                                  .rollup(function (v) {
+                                      return d3.sum(v, function (d) {
+                                          return 1;
+                                      });
+                                  })
+                                  .entries(data)
+                              console.log(JSON.stringify(data))
+                              var pie = d3.pie().value(function (d) {
+                                  console.log("d.value=" + d.value);
+                                  return d.value.value;
+                              });
+                              var data_ready = pie(d3.entries(data));
+                              var arcGenerator = d3.arc().innerRadius(0).outerRadius(radius1);
+
+                            svg1
+                              .selectAll("mySlices")
+                              .data(data_ready)
+                              .enter()
+                              .append("path")
+                              .attr("d",arcGenerator)
+                              .attr("fill",function(d){
+                                return color(d.data.value.key);
+                              })
+                              .attr("stroke","black")
+                              .style("stroke-width","2px")
+                              .style("opacity",0.7)
+
+                              //add annotation
+                              svg1
+                                .selectAll("mySlices")
+                                .data(data_ready)
+                                .enter()
+                                .append("text")
+                                .text(function(d){
+                                  return d.data.value.key+"-"+d.data.value.value;
+                                })
+                                .attr("transform",function(d){
+                                  return "translate("+arcGenerator.centroid(d)+")";
+                                })
+                                .style("text-anchor","middle")
+                                .style("font-size",11)
+                          });
+                          
+                        </script>
+                      </div>
+                     
+                    </div>
+                  </div>
+                  <div class="card-footer small text-muted">
+                    Updated <span id="datetime1"></span>
+                    <script>
+                      var dt=new Date();
+                      document.getElementById("datetime1").innerHTML=dt.toLocaleString();
+                    </script>
+                  </div>
+                </div>
+                <!-- Card Columns Example Social Feed-->
+                
+                <hr class="mt-2">
+                
+                <!-- /Card Columns-->
+              </div>
+              <div class="col-lg-4">
+                <!-- Example Pie Chart Card-->
+                <div class="card mb-3">
+                  <div class="card-header">
+                    <i class="fa fa-pie-chart"></i> Gender distribution</div>
+                  <div class="card-body">
+                    <canvas id="myPieChart" width="100%" height="100"></canvas>
+                    <script src="https://d3js.org/d3.v5.js"></script>
+                    <div>
+                        <strong>Selected Gender: </strong>
+                        <span id="selectedSex"></span>
+                        
+                      </div>
+                      <main>
+                        <section>
+                          <h3>Gender Distribution</h3>
+                          <svg id="sex"></svg>
+                        </section>
+                        
+                      </main>
+                    <script>
+                      const state = {
+                          selectedSex: null,
+                        };
+                        
+                        function createPieChart(svgSelector,stateAttr,colorScheme){
+                            const  margin=10;
+                            const radius=100;
+
+                            //creates sources <svg> element
+                            const svg=d3
+                                .select(svgSelector)
+                                .attr("width",radius*2+margin*2)
+                                .attr("height",radius*2+margin*2)
+                                .attr("stroke","black")
+                                .style("stroke-width","2px")
+
+                            //group used to enforce margin
+                            const g=svg.append("g").attr("transform",`translate(${radius+margin},${radius+margin})`);
+                            const pie=d3
+                                .pie()
+                                .value((d)=>d.values.length)
+                                .sortValues(null)
+                                .sort(null);
+                            const arc=d3.arc().outerRadius(radius).innerRadius(0);
+                            const noSlice=[
+                                {startAngle:0,endAngle:Math.PI*2,padAngle:0},
+                                {startAngle:0,endAngle:0,padAngle:0},
+                            ];
+                            const cscale=d3.scaleOrdinal(colorScheme);
+
+                            function update(new_data){
+                                //{key:string,values:IPerson[]}[]
+                                const pied=pie(new_data);
+                                //Render chart with new data
+
+                                cscale.domain(new_data.map((d)=>d.key));
+
+                                //DATA JOIN
+                                const old=g.selectAll("path").data();
+
+                                function tweenArc(d,i){
+                                    const interpolate=d3.interpolateObject(old[i],d);
+                                    return (t)=>arc(interpolate(t));
+                                }
+
+                                //DATA JOIn
+                                const path=g
+                                    .selectAll("path")
+                                    .data(pied,(d)=>d.data.key)
+                                    .join(
+                                        //enter
+                                        //new elements
+                                        (enter)=>{
+                                            const path_enter=enter
+                                                .append("path")
+                                                .attr("d",(d,i)=>arc(noSlice[i]))
+                                                .on("click",(d)=>{
+                                                    if(state[stateAttr]===d.data.key){
+                                                        state[stateAttr]=null;
+                                                    }
+                                                    else{
+                                                        state[stateAttr]=d.data.key;
+                                                    }
+                                                    updateApp();
+                                                });
+                                                path_enter.append("title");
+                                                return path_enter;
+                                        },
+                                        (update)=>update,
+                                        (exit)=>exit.transition().attrTween("d",tweenArc).remove()
+                                    );
+                                
+                                    //ENTER+UPDATE
+                                    //both old and new elements
+                                    path
+                                        .classed("selected",(d)=>d.data.key===state.selectedSex)
+                                        .transition()
+                                        .attrTween("d",tweenArc)
+                                        .style("fill",(d)=>cscale(d.data.key));
+                                    path.select("title").text((d)=>`${d.data.key}:${d.data.values.length}`);
+
+                            }
+                            return update;
+                        }
+                        ///////////////////////////
+                        const sexPieChart=createPieChart("#sex","selectedSex",d3.schemeSet3);
+
+                        //d.columnname where d.Gender
+                        function filterData(){
+                            return state.data.filter((d)=>{
+                                if(state.selectedSex && d.Sex!==state.selectedSex){
+                                    return false;
+                                }
+                                return true;
+                            });
+                        }
+                        //d.columnname === key
+                        function wrangleData(filtered){
+                            const sexPieData=["Female","Male"].map((key)=>({
+                                key,
+                                values:filtered.filter((d)=>d.Sex===key),
+                            }));
+
+                            return{
+                                sexPieData
+                            };
+                        }
+                        function updateApp(){
+                            const filtered=filterData();
+                            const{sexPieData}=wrangleData(filtered);
+                            sexPieChart(sexPieData);
+
+                            d3.select("#selectedSex").text(state.selectedSex || "None");
+                        }
+                        
+                        // Add csv source here
+                        d3.csv("https://raw.githubusercontent.com/adityavdesai/Student-Placement-Analysis/master/placement-data.csv?token=AG3N2VE2GGWD4DCZERDFK3C6Z7RLA").then((parsed)=>{
+                            state.data=parsed.map((row)=>{
+                                return row;
+                            });
+                            updateApp();
+                            
+                        })
+
+                    </script>
+                    <script type="text/javascript">
+                        // <![CDATA[  <-- For SVG support
+                        if ('WebSocket' in window) {
+                            (function () {
+                                function refreshCSS() {
+                                    var sheets = [].slice.call(document.getElementsByTagName("link"));
+                                    var head = document.getElementsByTagName("head")[0];
+                                    for (var i = 0; i < sheets.length; ++i) {
+                                        var elem = sheets[i];
+                                        var parent = elem.parentElement || head;
+                                        parent.removeChild(elem);
+                                        var rel = elem.rel;
+                                        if (elem.href && typeof rel != "string" || rel.length == 0 || rel.toLowerCase() == "stylesheet") {
+                                            var url = elem.href.replace(/(&|\?)_cacheOverride=\d+/, '');
+                                            elem.href = url + (url.indexOf('?') >= 0 ? '&' : '?') + '_cacheOverride=' + (new Date().valueOf());
+                                        }
+                                        parent.appendChild(elem);
+                                    }
+                                }
+                                var protocol = window.location.protocol === 'http:' ? 'ws://' : 'wss://';
+                                var address = protocol + window.location.host + window.location.pathname + '/ws';
+                                var socket = new WebSocket(address);
+                                socket.onmessage = function (msg) {
+                                    if (msg.data == 'reload') window.location.reload();
+                                    else if (msg.data == 'refreshcss') refreshCSS();
+                                };
+                                if (sessionStorage && !sessionStorage.getItem('IsThisFirstTime_Log_From_LiveServer')) {
+                                    console.log('Live reload enabled.');
+                                    sessionStorage.setItem('IsThisFirstTime_Log_From_LiveServer', true);
+                                }
+                            })();
+                        }
+                        else {
+                            console.error('Upgrade your browser. This Browser is NOT supported WebSocket for Live-Reloading.');
+                        }
+                        // ]]>
+                    </script>
+
+
+                  </div>
+                  <div class="card-footer small text-muted">Updated yesterday at 11:59 PM</div>
+                </div>
+                <!-- Example Notifications Card-->
+                
+              </div>
+            </div>
+            <!-- Example DataTables Card-->
+            
+          </div>
+          <!-- /.container-fluid-->
+          <!-- /.content-wrapper-->
+          <footer class="sticky-footer">
+            <div class="container">
+              <div class="text-center">
+                <small>Copyright © Your Website 2018</small>
+              </div>
+            </div>
+          </footer>
+          <!-- Scroll to Top Button-->
+          <a class="scroll-to-top rounded" href="#page-top">
+            <i class="fa fa-angle-up"></i>
+          </a>
+          <!-- Logout Modal-->
+          <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalLabel">Ready to Leave?</h5>
+                        <button class="close" type="button" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">×</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">Select "Logout" below if you are ready to end your current session.</div>
+                    <div class="modal-footer">
+                        <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancel</button>
+                        <a class="btn btn-primary" href="logout">Logout</a>
+                    </div>
+                </div>
+            </div>
+          </div>
+        </div>
+      </body>
+</html>
