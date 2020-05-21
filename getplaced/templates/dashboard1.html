@@ -260,78 +260,187 @@
               <li class="breadcrumb-item active">My Dashboard</li>
             </ol>
             <!-- Icon Cards-->
-            <div class="row">
-              <div class="col-xl-3 col-sm-6 mb-3">
-                <div class="card text-white bg-primary o-hidden h-100">
-                  <div class="card-body">
-                    <div class="card-body-icon">
-                      <i class="fa fa-fw fa-comments"></i>
-                    </div>
-                    <div class="mr-5">26 New Messages!</div>
-                  </div>
-                  <a class="card-footer text-white clearfix small z-1" href="#">
-                    <span class="float-left">View Details</span>
-                    <span class="float-right">
-                      <i class="fa fa-angle-right"></i>
-                    </span>
-                  </a>
-                </div>
-              </div>
-              <div class="col-xl-3 col-sm-6 mb-3">
-                <div class="card text-white bg-warning o-hidden h-100">
-                  <div class="card-body">
-                    <div class="card-body-icon">
-                      <i class="fa fa-fw fa-list"></i>
-                    </div>
-                    <div class="mr-5">11 New Tasks!</div>
-                  </div>
-                  <a class="card-footer text-white clearfix small z-1" href="#">
-                    <span class="float-left">View Details</span>
-                    <span class="float-right">
-                      <i class="fa fa-angle-right"></i>
-                    </span>
-                  </a>
-                </div>
-              </div>
-              <div class="col-xl-3 col-sm-6 mb-3">
-                <div class="card text-white bg-success o-hidden h-100">
-                  <div class="card-body">
-                    <div class="card-body-icon">
-                      <i class="fa fa-fw fa-shopping-cart"></i>
-                    </div>
-                    <div class="mr-5">123 New Orders!</div>
-                  </div>
-                  <a class="card-footer text-white clearfix small z-1" href="#">
-                    <span class="float-left">View Details</span>
-                    <span class="float-right">
-                      <i class="fa fa-angle-right"></i>
-                    </span>
-                  </a>
-                </div>
-              </div>
-              <div class="col-xl-3 col-sm-6 mb-3">
-                <div class="card text-white bg-danger o-hidden h-100">
-                  <div class="card-body">
-                    <div class="card-body-icon">
-                      <i class="fa fa-fw fa-support"></i>
-                    </div>
-                    <div class="mr-5">13 New Tickets!</div>
-                  </div>
-                  <a class="card-footer text-white clearfix small z-1" href="#">
-                    <span class="float-left">View Details</span>
-                    <span class="float-right">
-                      <i class="fa fa-angle-right"></i>
-                    </span>
-                  </a>
-                </div>
-              </div>
-            </div>
+            
             <!-- Area Chart Example-->
             <div class="card mb-3">
               <div class="card-header">
                 <i class="fa fa-area-chart"></i> Area Chart Example</div>
               <div class="card-body">
                 <canvas id="myAreaChart" width="100%" height="30"></canvas>
+                <div>
+                  <label for="passenger-class"><strong>Subject:</strong></label>
+                  <select id="passenger-class">
+                    <option value="" selected>Select</option>
+                    <option value="1">OS</option>
+                    <option value="2">Algorithms</option>
+                    <option value="3">3rd Class</option>
+                  </select>
+                  <main>
+                    <section>
+                      <h3>
+                        Subject Marks Distribution
+                        <svg id="marks"></svg>
+                      </h3>
+                    </section>
+                  </main>
+                  <script>
+                    const state={
+                      subject:"",
+                      selectedSex:null
+                      //bharo baadme
+                    }
+                    function createHistogram(svgSelector){
+                      const margin={
+                        top:40,
+                        bottom:10,
+                        left:120,
+                        right:20,
+                      };
+                      const width=600-margin.left-margin.right;
+                      const height=400-margin.top-margin.bottom;
+
+                      //creates sources <svg> element
+                      const svg=d3
+                        .select(svgSelector)
+                        .attr("width",width+margin.left+margin.right)
+                        .attr("height",height+margin.top+margin.bottom);
+
+                      //Group used to enforce margin
+                      const g=svg.append("g").attr("transform",`translate(${margin.left},${margin.top})`);
+
+                      //scales setup
+                      const xscale=d3.scaleLinear().range([0,width]);
+                      const yscale=d3.scaleLinear().range([0,height]);
+
+                      //Axis setup
+                      const xaxis = d3.axisTop().scale(xscale);
+                      const g_xaxis=g.append("g").attr("class","x axis");
+                      const yaxis = d3.axisLeft().scale(yscale);
+                      const g_yaxis=g.append("g").attr("class","y axis");
+
+                      function update(new_data){
+                        //update scales
+                        xscale.domain([0,d3.max(new_data,(d)=>d.length)]);
+                        yscale.domain([new_data[0].x0,new_data[new_data.length-1].x1]);
+
+                        //render axis
+                        g_xaxis.transition().call(xaxis);
+                        g_yaxis.transition().call(yaxis);
+
+                        //Render the chart with new data
+
+                        //DATA JOIN
+                        const rect=g
+                          .selectAll("rect")
+                          .data(new_data)
+                          .join(
+                            (enter)=>{
+                              //ENTER
+                              //new elements
+                              const rect_enter=enter
+                                .append("rect")
+                                .attr("x",0)//set intelligent default values for animation
+                                .attr("y",0)
+                                .attr("width",0)
+                                .attr("height",0);
+                              rect_enter.append("title");
+                              return rect_enter;
+                            },
+                            //UPDATE
+                            //update existing elements
+                            (update)=>update,
+                            //EXIT
+                            //elements that are not associated with data
+                            (exit)=>exit.remove()
+                          );
+
+                          //ENTER+UPDATE
+                          //both old and new elements
+                          rect
+                            .transition()
+                            .attr("height",(d)=>yscale(d.x1)-yscale(d.x0)-2)
+                            .attr("width",(d)=>xscale(d.length))
+                            .attr("y",(d)=>yscale(d.x0)+1);
+                          
+                          rect.select("title").text((d)=>`${d.x0}:${d.length}`);
+                      }
+                      return update;
+                    }
+
+                    const marksHistogram=createHistogram("#marks");
+
+                    function filterData(){
+                      return state.data.filter((d)=>{
+                        return true;
+                      });
+                    }
+                    function wrangleData(filtered){
+                      const marksHistogram=d3
+                        .histogram()
+                        .domain([0,100])
+                        .thresholds(10)
+                        .value((d)=>d.os)
+                      const marksHistogramData=marksHistogram(filtered);
+
+                      return{
+                        marksHistogramData
+                      };
+                    }
+                    function updateApp(){
+                      const filtered=filterData();
+                      const{ marksHistogramData}=wrangleData(filtered);
+                      marksHistogram(marksHistogramData);
+
+                    }
+                    d3.csv("../../placement-data.csv").then((parsed) => {
+                    state.data = parsed.map((row) => {
+                      row.marks = parseInt(row.os, 10);
+                      return row;
+                      });
+
+                    updateApp();
+                    });
+
+
+                  </script>
+                  <script type="text/javascript">
+                    // <![CDATA[  <-- For SVG support
+                    if ('WebSocket' in window) {
+                      (function () {
+                        function refreshCSS() {
+                          var sheets = [].slice.call(document.getElementsByTagName("link"));
+                          var head = document.getElementsByTagName("head")[0];
+                          for (var i = 0; i < sheets.length; ++i) {
+                            var elem = sheets[i];
+                            var parent = elem.parentElement || head;
+                            parent.removeChild(elem);
+                            var rel = elem.rel;
+                            if (elem.href && typeof rel != "string" || rel.length == 0 || rel.toLowerCase() == "stylesheet") {
+                              var url = elem.href.replace(/(&|\?)_cacheOverride=\d+/, '');
+                              elem.href = url + (url.indexOf('?') >= 0 ? '&' : '?') + '_cacheOverride=' + (new Date().valueOf());
+                            }
+                            parent.appendChild(elem);
+                          }
+                        }
+                        var protocol = window.location.protocol === 'http:' ? 'ws://' : 'wss://';
+                        var address = protocol + window.location.host + window.location.pathname + '/ws';
+                        var socket = new WebSocket(address);
+                        socket.onmessage = function (msg) {
+                          if (msg.data == 'reload') window.location.reload();
+                          else if (msg.data == 'refreshcss') refreshCSS();
+                        };
+                        if (sessionStorage && !sessionStorage.getItem('IsThisFirstTime_Log_From_LiveServer')) {
+                          console.log('Live reload enabled.');
+                          sessionStorage.setItem('IsThisFirstTime_Log_From_LiveServer', true);
+                        }
+                      })();
+                    }
+                    else {
+                      console.error('Upgrade your browser. This Browser is NOT supported WebSocket for Live-Reloading.');
+                    }
+                    // ]]>
+                  </script>
+                </div>
               </div>
               <div class="card-footer small text-muted">Updated yesterday at 11:59 PM</div>
             </div>
@@ -398,9 +507,7 @@
                         </section>
                       </main>
                     <script>
-                        const state={
-                            selectedSex:null
-                        };
+                        
                         function createPieChart(svgSelector,stateAttr,colorScheme){
                             const  margin=10;
                             const radius=100;
