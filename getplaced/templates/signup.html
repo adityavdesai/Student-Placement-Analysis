@@ -32,73 +32,67 @@
     <link rel="stylesheet" href="../static/css/login.css" />
   </head>
   <body>
-    <div class="global-container">
+  <div class="global-container">
       <div class="card login-form">
-        <div class="card-body">
-          <h3 class="card-title text-center">Sign up to GetPlaced</h3>
-          <p class="card-title text-center">Get in touch with the right students!</p>
-          <div class="card-text">
-            <!--
-                    <div class="alert alert-danger alert-dismissible fade show" role="alert">Incorrect username or password.</div> -->
-            <form>
-              <!-- to error: add class "has-danger" -->
-              <div class="form-group">
-                <label for="exampleInputName">Full Name</label>
-                <input
-                  type="text"
-                  class="form-control form-control-sm"
-                  id="exampleInputName"
-                  aria-describedby="emailHelp"
-                />
-              </div>
-              <div class="form-group">
-                <label for="exampleInputCompany">Company</label>
-                <input
-                  type="text"
-                  class="form-control form-control-sm"
-                  id="exampleInputCompany"
-                  aria-describedby="emailHelp"
-                />
-              </div>
-              <div class="form-group">
-                <label for="exampleInputEmail1">Work Email address</label>
-                <input
-                  type="email"
-                  class="form-control form-control-sm"
-                  id="exampleInputEmail1"
-                  aria-describedby="emailHelp"
-                />
-              </div>
-              <div class="form-group">
-                <label for="exampleInputPassword1">Password</label>
-                
-                <input
-                  type="password"
-                  class="form-control form-control-sm"
-                  id="exampleInputPassword1"
-                />
-              </div>
-              <div class="form-group">
-                <label for="exampleInputPasswordConfirm">Confirm Password</label>
-                
-                <input
-                  type="password"
-                  class="form-control form-control-sm"
-                  id="exampleInputPasswordConfirm"
-                />
-                <br/>
-              </div>
-              <button type="submit" class="btn btn-primary btn-block">
-                Sign in
-              </button>
+          <div class="card-body">
+              <h3 class="card-title text-center">Sign up to GetPlaced</h3>
+              <p class="card-title text-center">Get in touch with the right students!</p>
+              <div class="card-text">
+                  <!--
+                          <div class="alert alert-danger alert-dismissible fade show" role="alert">Incorrect username or password.</div> -->
+                  <form method="post">
+                      <!-- to error: add class "has-danger" -->
+                      <div class="form-group">
+                          <label for="name">Full Name</label>
+                          <input
+                                  type="text"
+                                  class="form-control form-control-sm"
+                                  id="name"
+                                  name="name"
+                                  aria-describedby="emailHelp"
+                          />
+                      </div>
+                      <div class="form-group">
+                          <label for="company">Company</label>
+                          <input
+                                  type="text"
+                                  class="form-control form-control-sm"
+                                  id="company"
+                                  name="company"
+                                  aria-describedby="emailHelp"
+                          />
+                      </div>
+                      <div class="form-group">
+                          <label for="email">Work Email address</label>
+                          <input
+                                  type="email"
+                                  class="form-control form-control-sm"
+                                  id="email"
+                                  name="email"
+                                  aria-describedby="emailHelp"
+                          />
+                      </div>
+                      <div class="form-group">
+                          <label for="password">Password</label>
 
-              <div class="sign-up">
-                Already have an account? <a href="login.html">Login</a>
+                          <input
+                                  type="password"
+                                  class="form-control form-control-sm"
+                                  id="password"
+                                  name="password"
+                          />
+                      </div>
+                      <button type="submit" class="btn btn-primary btn-block">
+                          Sign up
+                      </button>
+
+                      <div class="sign-up">
+                          Already have an account? <a href="login">Login</a>
+                      </div>
+                  </form>
               </div>
-            </form>
           </div>
-        </div>
       </div>
-    </div>
+  </div>
   </body>
 </html>
