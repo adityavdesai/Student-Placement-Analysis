@@ -1,1 +1,1 @@
-web: gunicorn getplaced:app
+web: gunicorn getplaced:app --timeout 120
