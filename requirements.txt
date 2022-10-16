@@ -9,5 +9,5 @@ gunicorn==20.0.4
 Jinja2==2.11.1
 python-http-client==3.2.7
 Werkzeug==1.0.1
-urllib3==1.25.8
+urllib3==1.26.5
 black==19.10b0
