@@ -8,6 +8,6 @@ Flask-Login==0.5.0
 gunicorn==20.0.4
 Jinja2==2.11.3
 python-http-client==3.2.7
-Werkzeug==1.0.1
+Werkzeug==2.2.3
 urllib3==1.26.5
 black==19.10b0
